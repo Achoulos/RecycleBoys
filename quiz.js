@@ -3,85 +3,107 @@ var score = 0;
 $(document).ready(function() {
 	registerEventHandlers();
 })
-	// Randomly generates a country to solve.
-	// Avoids displaying duplicate countries through the additional
+	// Randomly generates a question to solve.
+	// Avoids displaying duplicate questions through the additional
 	// object boolean "answered".
-	function selectCountry(e) {
-	// 	var random = Math.floor(Math.random() * 100 % 11);
-	// 	if (countries[random].answered) {
-	// 		for (var i = 0; i < countries.length; i++) {
-	// 			random = (random + 1) % countries.length;
-	// 			if (!countries[random].answered) {
-	// 				var value = countries[random].country;
-	// 				value = value.charAt(0).toUpperCase() + value.slice(1);
-	// 				document.getElementById("country").value = value;
-	// 				countries[random].answered = true;
-	// 				return;
-	// 			}
-	// 		}	
-	// 		alert("All contries have been shown!");
-	// 		return;
-	// 	}
-	// 	var value = countries[random].country;
-	// 	value = value.charAt(0).toUpperCase() + value.slice(1);
-	// 	document.getElementById("country").value = value;
+	function selectQuestion(e) {
+		// TODO(eric) : ADD START-TIMER LOGIC HERE.
+		var random = Math.floor(Math.random() * 100 % 5);
+		if (questions[random].answered) {
+			for (var i = 0; i < questions.length; i++) {
+				random = (random + 1) % questions.length;
+				if (!questions[random].answered) {
+					var value = questions[random].question;
+					document.getElementById("question").value = value;
+					questions[random].answered = true;
+					$('#answer1').remove();
+					$('#answer2').remove();
+					$('#answer3').remove();
+					$('#answer4').remove();
 
-	// 	countries[random].answered = true;
-	}
-
-	// Checks validity of answer regardless of letter case and if
-	// the user has actually filled out the form. 
-	function checkAnswer(e) {
-		// var answer = document.getElementById("capitol").value;
-		// if (answer === "") {
-		// 	alert("Please enter an answer.");
-		// 	return;
-		// }
-		// answer = answer.toLowerCase();
-		// var country = document.getElementById("country").value;
-		// if (country === "") {
-		// 	alert("Please generate a valid country.");
-		// 	return;
-		// }
-		// country = country.toLowerCase();
-		// for (var i = 0; i < countries.length; i++) {
-		// 	if (countries[i].country === country) {
-		// 		if (answer === countries[i].capitol) {
-		// 			score ++;
-		// 			alert("Correct answer! Score: " + score);
-		// 			document.getElementById("capitol").value = "";
-		// 			selectCountry();
-		// 		} else {
-		// 			alert("Incorrect, try again! Score: " + score);
-		// 		}
-		// 	}
-		// }
-
-		alert($("input[name=answer]:checked").val());
-		$('#a1').append("<span id='answer1'>Hello</span>");
-		$('#b1').append("<span id='answer2'>Hello</span>");
-		$('#c1').append("<span id='answer3'>Hello</span>");
-		$('#d1').append("<span id='answer4'>Hello</span>");
+					$('#a1').append("<span id='answer1'>" + questions[random].a + "</span>");
+					$('#b1').append("<span id='answer2'>" + questions[random].b + "</span>");
+					$('#c1').append("<span id='answer3'>" + questions[random].c + "</span>");
+					$('#d1').append("<span id='answer4'>" + questions[random].d + "</span>");
+					return;
+				}
+			}	
+			alert("All questions have been shown!");
+			return;
+		}
+		var value = questions[random].question;
+		document.getElementById("question").value = value;
+		questions[random].answered = true;
 		$('#answer1').remove();
-		$('#a1').append("woop");
+		$('#answer2').remove();
+		$('#answer3').remove();
+		$('#answer4').remove();
 
+		$('#a1').append("<span id='answer1'>" + questions[random].a + "</span>");
+		$('#b1').append("<span id='answer2'>" + questions[random].b + "</span>");
+		$('#c1').append("<span id='answer3'>" + questions[random].c + "</span>");
+		$('#d1').append("<span id='answer4'>" + questions[random].d + "</span>");
 	}
+
+	// Checks correctness of answer. 
+	function checkAnswer(e) {
+		var answer = $("input[name=answer]:checked").val();
+		var question = $("#question").val();
+
+		for (var i = 0; i < question.length; i++) {
+			if (questions[i].question === question) {
+				if (answer === questions[i].answer) {
+					score ++;
+					$("#score").remove();
+					$("#keeper").append("<h1 id='score'>" + score + "</h1>");
+					selectQuestion();
+				} else {
+					alert("Incorrect, try again!");
+				}
+			}
+		}
+	}
+
 	function registerEventHandlers() {
-		document.getElementById("countrySubmit").addEventListener('click',selectCountry, false);
-		document.getElementById("capitolSubmit").addEventListener('click',checkAnswer, false);
+		document.getElementById("questionSubmit").addEventListener('click',selectQuestion, false);
+		document.getElementById("answerSubmit").addEventListener('click',checkAnswer, false);
 	}
-
-var countries = 
+// TODO(alex and eric): Add legit questions. 
+var questions = 
 		[
-			{country: "argentina", capitol: "buenos aires", answered: false },
-			{country: "australia", capitol: "canberra", answered: false },
-			{country: "netherlands", capitol: "amsterdam", answered: false },
-			{country: "austria", capitol: "vienna", answered: false},
-			{country: "japan", capitol: "tokyo", answered: false},
-			{country: "greece", capitol: "athens", answered: false},
-			{country: "iceland", capitol: "reykjavik", answered: false},
-			{country: "india", capitol: "new delhi", answered: false},
-			{country: "indonesia", capitol: "jakarta", answered: false},
-			{country: "armenia", capitol: "yerevan", answered: false},
-			{country: "belgium", capitol: "brussels", answered: false}
+			{ question: "asdf", 
+			  a: "buenos aires", 
+			  b: "dasfdas", 
+			  c: "dasfdasfas",
+			  d: "dasfewaddd",
+			  answer: "A",
+			  answered: false },
+			{ question: "ddd", 
+			  a: "eawsdes", 
+			  b: "asda", 
+			  c: "ff",
+			  d: "e",
+			  answer: "B",
+			  answered: false },
+			  { question: "lfjlewak", 
+			  a: "geasdfaew", 
+			  b: "dasfaweeewwwww", 
+			  c: "mcmccmccca",
+			  d: "eqqqw21",
+			  answer: "C",
+			  answered: false },
+			  { question: "39p18247", 
+			  a: " aires", 
+			  b: "daccccva", 
+			  c: "3341",
+			  d: "aweoawlaw",
+			  answer: "A",
+			  answered: false },
+			  { question: "cccnccccc", 
+			  a: "dasfeawfw e111", 
+			  b: "213", 
+			  c: "555",
+			  d: "das444fewaddd",
+			  answer: "D",
+			  answered: false },
 		]

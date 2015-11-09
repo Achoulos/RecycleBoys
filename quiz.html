@@ -81,8 +81,8 @@
           <fieldset>
             <legend> The Recycling Quiz </legend>
             <div style="padding: 5px;">
-              <b>Question:</b> <input type="text" name="country" id="country">
-                <input type="button" id="countrySubmit" value="Show me a country">
+              <b>Question:</b> <input type="text" name="question" id="question">
+                <input type="button" id="questionSubmit" value="Next Question">
               </div>
               <div style="padding: 5px;">
               A: <input type="radio" id="aRadio" name="answer" value="A" checked>
@@ -93,10 +93,13 @@
                   <span id="c1"></span></br>
               D: <input type="radio" id="dRadio" name="answer" value="D">
                   <span id="d1"></span></br>
-                <input type="button" id="capitolSubmit" value="Check it">
+                <input type="button" id="answerSubmit" value="Check it">
             </div>
           </fieldset>
         </form>
+        <div id="keeper" style="text-align: center;">
+          <h2><u> Score</u></h2><h1 id="score">0</h1>
+        </div>
       </div>
     </div><!-- /.container -->
     <footer class="footer">
