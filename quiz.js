@@ -1,4 +1,6 @@
 var score = 0;
+var started = false;
+var timeout;
 
 $(document).ready(function() {
 	registerEventHandlers();
@@ -7,7 +9,15 @@ $(document).ready(function() {
 	// Avoids displaying duplicate questions through the additional
 	// object boolean "answered".
 	function selectQuestion(e) {
-		// TODO(eric) : ADD START-TIMER LOGIC HERE.
+		if (!started) {
+			var duration = 30000;
+	         $("#can").animate({top:140}, duration);  
+			  function timer(){
+			        alert("Time's up!");
+		      }
+      		 timeout =  setTimeout(timer, duration);
+      		 started = true;
+		}
 		var random = Math.floor(Math.random() * 100 % 5);
 		if (questions[random].answered) {
 			for (var i = 0; i < questions.length; i++) {
@@ -29,6 +39,8 @@ $(document).ready(function() {
 				}
 			}	
 			alert("All questions have been shown!");
+			$('#can').stop();
+			clearTimeout(timeout);
 			return;
 		}
 		var value = questions[random].question;
@@ -43,6 +55,12 @@ $(document).ready(function() {
 		$('#b1').append("<span id='answer2'>" + questions[random].b + "</span>");
 		$('#c1').append("<span id='answer3'>" + questions[random].c + "</span>");
 		$('#d1').append("<span id='answer4'>" + questions[random].d + "</span>");
+	}
+
+	function stopTimer(e) {
+		$('#can').stop();
+		clearTimeout(timeout);
+		alert("You have ended the quiz! Thank you for playing.");
 	}
 
 	// Checks correctness of answer. 
@@ -67,6 +85,7 @@ $(document).ready(function() {
 	function registerEventHandlers() {
 		document.getElementById("questionSubmit").addEventListener('click',selectQuestion, false);
 		document.getElementById("answerSubmit").addEventListener('click',checkAnswer, false);
+		document.getElementById("stopQuiz").addEventListener('click', stopTimer, false);
 	}
 // TODO(alex and eric): Add legit questions. 
 var questions = 
