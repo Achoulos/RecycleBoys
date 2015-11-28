@@ -8,33 +8,45 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns = "http://www.w3.org/1999/xhtml">
-<head><title> Widget Catalog </title></head>
+<head><title> Product Catalog </title></head>
 <body>
-<table>
-  <tr> <th> Widget <th> Weight <th> Price <th> 
+  <?php 
+    ini_set('display_errors','On');
+    error_reporting(E_ALL);
+    $db_host = "localhost";
+    $db_user = "root";
+    $db_pass = "root";
+    $db_name = "mysql";
+    $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+    // Check connection
+    if (mysqli_connect_errno())
+      {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+      }
 
-  <tr> <td> Hammer </td>
-       <td> 2 lbs </td>
-       <td> <?php global $prices; echo "$",$prices["hm"]; ?> </td>
-       <td> <a href="viewCart.php?add=hm">Add to cart</a> </td>
-  </tr>
-  <tr> <td> Wrench </td>
-       <td> 1 lb </td>
-       <td> <?php global $prices; echo "$",$prices["wr"]; ?> </td>
-       <td> <a href="viewCart.php?add=wr">Add to cart</a></td>
-  </tr>
-  <tr> <td> Nut</td>
-       <td> 0.5 lb </td>
-       <td> <?php global $prices; echo "$",$prices["nt"]; ?> </td>
-       <td> <a href="viewCart.php?add=nt">Add to cart</a></td>
-  </tr>
-  <tr> <td> Motor</td>
-       <td> 10 lbs </td>
-       <td> <?php global $prices; echo "$",$prices["mt"]; ?> </td>
-       <td> <a href="viewCart.php?add=mt">Add to cart</a></td>
-  </tr>
+      $sql="SELECT * FROM Catalog";
+
+      $result = $con->query($sql);
+      if (!$result)
+      {
+        die('Error: ' . mysqli_error($con));
+      } 
+    echo "<table border='.5'>
+    <tr> <th> Code </th> <th> Product </th> <th> Price </th>";
+    //echo "<th> Quantity </th>";
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . $row['Code'] . "</td>";
+        echo "<td>" . $row['Title'] . "</td>";
+        echo "<td>" . $row['Price'] . "</td>";
+        //echo "<td>" . $row['Quantity'] . "</td>";
+        echo "<td> IMAGE GOES HERE BONILLA </td>";
+        echo "<td> <a href=\"viewCart.php?add=" . $row['Code'] . "\">Add to cart</a></td>";
+        echo "<tr>";
+    }
+    echo "</table>";
+  ?>
   </table>
-  
   <p> 
     <a href="viewCart.php?show">View Shopping Cart</a> 
     <br/> <br/>

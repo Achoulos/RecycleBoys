@@ -4,6 +4,33 @@ session_start();	// Start the session before you write your HTML page
 <?php 
     include ("inventory.php"); 
  ?>
+ <?php 
+ 	// get the current quantities from inventory.
+ 	ini_set('display_errors','On');
+    error_reporting(E_ALL);
+    $db_host = "localhost";
+    $db_user = "root";
+    $db_pass = "root";
+    $db_name = "mysql";
+    $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+    // Check connection
+    if (mysqli_connect_errno())
+      {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+      }
+
+      $sql="SELECT * FROM Catalog";
+
+      $result = $con->query($sql);
+      if (!$result)
+      {
+        die('Error: ' . mysqli_error($con));
+      } 
+  
+    while($row = mysqli_fetch_assoc($result)) {
+        $inventory[$row['Code']] = $row['Quantity'];
+    }
+ ?>
 <?php 
 // This function displays the contents of the shopping cart 
 function show_cart() {
@@ -27,7 +54,6 @@ function show_cart() {
 }
 // This function removes an item from the shopping cart
 function drop() {
-
 	 if (isset($_GET['drop'])){
 	 	$dropItemId = $_GET['drop'];	 		 		
 		if (isset($_SESSION['cart'])){
@@ -46,12 +72,13 @@ function drop() {
 function addToCart(){
 	// Access the global array
 	global $widgets;
-	
+	global $inventory;
 	
 	// Get the item id to add - this is the string sent with the 
 	// selection when the user clicked a link
 	
 	$addItemId = $_GET['add'];
+
 		 		 		
 	if (isset($_SESSION['cart'])){
 		$mycart = $_SESSION['cart'];
@@ -85,6 +112,7 @@ function checkout()
 {
 	global $widgets;
 	global $prices;
+	global $inventory;
 
 	$grandTotal = 0;
 
@@ -95,9 +123,16 @@ function checkout()
 		if ($value >0) {
 			    // get the full widget name from the widgets array;
 				$fullname = $widgets[$key];
-				$subtotal = (($prices[$key]) * $value);
-				$grandTotal += $subtotal;
-				print("$fullname = $value"." Subtotal: " . $subtotal . "<br>");
+				if ($inventory[$key] - $value < 0) {
+					$subtotal = (($prices[$key]) * $value);
+					print("$fullname = $value"." Subtotal: 0<br>");
+					print("There aren't enough $fullname for your order.<br>");
+					print("We will notify you when $fullname is back in stock.<br>");
+				} else {
+					$subtotal = (($prices[$key]) * $value);
+					$grandTotal += $subtotal;
+					print("$fullname = $value"." Subtotal: " . $subtotal . "<br>");
+				}
 			}
 		}
 		print("Grand Total: " . $grandTotal);
@@ -122,7 +157,6 @@ function checkout()
 	}
 	// if user has chosen "show cart"	
 	elseif (isset($_GET['show'])){ 
-       		
 		show_cart();
 		unset($_GET['show']);	
 	}
