@@ -1,0 +1,75 @@
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+  /*background-color:#E4F1FE;*/
+}
+
+#carbonads-container {display:block} h1[id] {padding-top:0px; margin-top:20px} .zero-clipboard {display:none !important} .bs-old-docs {display:none} .bs-social {display:none} .bs-sidebar {display:none !important} .col-md-9[role=main] {width:100% !important} .navbar-fixed-top {position:absolute !important}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  padding-top: 70px;
+
+}
+
+p.descr {
+  padding-left: 200px;
+  padding-right: 200px;
+}
+
+p.info {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+span.shop {
+  color: #F89406;
+}
+span.mem {
+  color: #96281B;
+}
+span.test {
+  color: #87D37C;
+}
+
+h3 {
+  color: #1BA39C;
+}
+
+hr.style-two {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+}
+
+form {
+  margin-top:100px;
+}
+
+input.text1 {
+  margin-bottom: 5px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 10px;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+  text-align: center;
+  }
+
+.logo {
+  margin-bottom: 20px;
+}

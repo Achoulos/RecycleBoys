@@ -1,0 +1,46 @@
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+  /*background-color:#E4F1FE;*/
+}
+
+#carbonads-container {display:block} h1[id] {padding-top:0px; margin-top:20px} .zero-clipboard {display:none !important} .bs-old-docs {display:none} .bs-social {display:none} .bs-sidebar {display:none !important} .col-md-9[role=main] {width:100% !important} .navbar-fixed-top {position:absolute !important}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  padding-top: 70px;
+
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 10px;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+  text-align: center;
+  }
+
+#bin {
+  width:100px;
+}
+
+#can {
+  position:relative;
+  width:30px;
+}
+
+.logo {
+  margin-bottom: 20px;
+}
