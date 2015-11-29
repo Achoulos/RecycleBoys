@@ -48,6 +48,8 @@
   ?>
   </table>
   <p> 
+    <a href="login.php">Login</a>
+    <br/><br/>
     <a href="register.php">Register</a>
     <br/><br/>
     <a href="viewCart.php?show">View Shopping Cart</a> 

@@ -1,8 +1,11 @@
 <?php 
 	session_start();// Start the session before you write your HTML page
+	if (isset($_SESSION['memberId'])) {
+		echo "You're previous session has been logged out. <br>";
+		unset($_SESSION['memberId']);
+	}
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-  Address: <input type="text" name="address" id="address">
   Email: <input type="text" name="email" id="email">
   Phone: <input type="text" name="phone" id="phone">
   <input type="submit">
@@ -15,15 +18,13 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     # collect input data
-     $address = $_POST['address'];
      $email = $_POST['email'];
      $phone = $_POST['phone'];
-     if (!empty($address) && !empty($phone) && !empty($email)){
-		$address = prepareInput($address);
+     if (!empty($phone) && !empty($email)){
 		$email = prepareInput($email);
 	    $phone = prepareInput($phone);
 
-	if (checkAddress($address) && checkPhone($phone) && checkEmail($email)){
+	if (checkPhone($phone) && checkEmail($email)){
 		 error_reporting(E_ALL);
 	    $db_host = "localhost";
 	    $db_user = "root";
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	        echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	      }
 		
-		 $result = $con->query("SELECT * FROM MEMBERS WHERE Email='$email'");
+		 $result = $con->query("SELECT * FROM MEMBERS WHERE Email='$email' AND Phone='$phone'");
 	     if (!$result)
 	     {
 	        die('Error: ' . mysqli_error($con));
@@ -44,11 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	     $row = mysqli_fetch_assoc($result);
 		if ($row){
 			$_SESSION['memberId'] = $row['id'];
-		}	
-		echo "Successfully Registered: $address, $phone, $email <br>";
+			echo "Successfully Logged in, $email <br>";
+		} else {
+			echo "Invalid login. Please try again. <br>";
+		}
 		mysql_close($con);
 	} else {
-		echo "Invalid input <br>"; 
+		echo "Invalid data. Please try again. <br>"; 
 	}
 } else {
 	echo "Empty input. Please input some data.<br>";
@@ -59,16 +62,6 @@ function prepareInput($inputData){
  	$inputData = stripslashes($inputData);
   	$inputData  = htmlspecialchars($inputData);
   	return $inputData;
-}
-function checkAddress($address){
-	if (preg_match('/^.{1,30}$/',$address)){
-		echo "Address ok <br>";
-		return true;
-	}
-	else {
-		echo "Invalid Address <br>";
-		return false;
-	}
 }
 function checkPhone($phone){
 	if (preg_match('/^[2-9]\d{9}$/',$phone)){		
