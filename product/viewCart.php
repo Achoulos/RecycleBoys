@@ -154,12 +154,17 @@ function checkout()
 				}
 			}
 		}
+		if (isset($_SESSION['memberId'])){
+			echo "Member Discount: -" . (float) ($grandTotal * (0.10)) . "<br>";
+			$grandTotal -= (float) ($grandTotal * (0.10));
+		}
 		print("Grand Total: " . $grandTotal);
 	} else {
 		echo "No items in the cart";
 	}
     mysql_close($con);
-	session_destroy();
+    unset($_SESSION['cart']);
+//	session_destroy();
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 transitional//EN"
