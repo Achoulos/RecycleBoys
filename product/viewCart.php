@@ -159,11 +159,11 @@ function checkout()
 			$grandTotal -= (float) ($grandTotal * (0.10));
 		}
 		print("Grand Total: " . $grandTotal);
+		unset($_SESSION['cart']);
 	} else {
 		echo "No items in the cart";
 	}
     mysql_close($con);
-    unset($_SESSION['cart']);
 //	session_destroy();
 }
 ?>

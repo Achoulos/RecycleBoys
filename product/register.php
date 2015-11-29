@@ -31,31 +31,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	    $db_name = "mysql";
 	    $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 	    // Check connection
-	    if (mysqli_connect_errno())
-	      {
+	    if (mysqli_connect_errno()) {
 	        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	      }
+	     }
+	     $sql = "select * from members where Email='$email'";
+	     $result = $con->query($sql);
+	      if (!$result) {
+		        die('Error: ' . mysqli_error($con));
+		  }
+		 $numResults = 0;
+		 while($row = mysqli_fetch_assoc($result)) {
+		 	$numResults ++;
+		 }
+		 if ($numResults > 0) {
+		 	echo "Email is already in use, please use a different one.<br>";
+		 } else {
+		      $sql="INSERT INTO Members VALUES(0, '$address', '$email', '$phone');";
 
-	      $sql="INSERT INTO Members VALUES(0, '$address', '$email', '$phone');";
-
-	      $result = $con->query($sql);
-	      if (!$result)
-	      {
-	        die('Error: ' . mysqli_error($con));
-	      } 
-	  
-		
-		 $result = $con->query("SELECT * FROM MEMBERS WHERE Email='$email'");
-	     if (!$result)
-	     {
-	        die('Error: ' . mysqli_error($con));
-	     } 
-	     $row = mysqli_fetch_assoc($result);
-		if ($row){
-			$_SESSION['memberId'] = $row['id'];
-		}	
-		echo "Successfully Registered: $address, $phone, $email <br>";
-		mysql_close($con);
+		      $result = $con->query($sql);
+		      if (!$result)
+		      {
+		        die('Error: ' . mysqli_error($con));
+		      } 
+		  
+			 $result = $con->query("SELECT * FROM MEMBERS WHERE Email='$email'");
+		     if (!$result)
+		     {
+		        die('Error: ' . mysqli_error($con));
+		     } 
+		     $row = mysqli_fetch_assoc($result);
+			if ($row){
+				$_SESSION['memberId'] = $row['id'];
+			}	
+			echo "Successfully Registered: $address, $phone, $email <br>";
+			mysql_close($con);
+		}
 	} else {
 		echo "Invalid input <br>"; 
 	}

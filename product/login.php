@@ -1,56 +1,88 @@
+<?php 
+	session_start();// Start the session before you write your HTML page
+?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-  Full Name: <input type="text" name="fname" id="fname">
-  Customer Id: <input type="text" name="custid" id="custid">
-  Email	: <input type="text" name="email" id="email">
+  Address: <input type="text" name="address" id="address">
+  Email: <input type="text" name="email" id="email">
+  Phone: <input type="text" name="phone" id="phone">
   <input type="submit">
  </form>
+
+<p>
+	<a href="catalog.php">Back</a>
+</p>
+
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     # collect input data
-     $custName = $_POST['fname'];
-     $custId = $_POST['custid'];
+     $address = $_POST['address'];
      $email = $_POST['email'];
-     if (!empty($custName) && !empty($custId) && !empty($email)){
-	$custName = prepareInput($custName);
-	$custId = prepareInput($custId);
-    $email = prepareInput($email);
+     $phone = $_POST['phone'];
+     if (!empty($address) && !empty($phone) && !empty($email)){
+		$address = prepareInput($address);
+		$email = prepareInput($email);
+	    $phone = prepareInput($phone);
 
-	if (checkCustomerName($custName) && checkCustomerId($custId) && checkEmail($email)){
-		echo "$custName, $custId,$email <br>"; 		
-	}
-	else
+	if (checkAddress($address) && checkPhone($phone) && checkEmail($email)){
+		 error_reporting(E_ALL);
+	    $db_host = "localhost";
+	    $db_user = "root";
+	    $db_pass = "root";
+	    $db_name = "mysql";
+	    $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+	    // Check connection
+	    if (mysqli_connect_errno())
+	      {
+	        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	      }
+		
+		 $result = $con->query("SELECT * FROM MEMBERS WHERE Email='$email'");
+	     if (!$result)
+	     {
+	        die('Error: ' . mysqli_error($con));
+	     } 
+	     $row = mysqli_fetch_assoc($result);
+		if ($row){
+			$_SESSION['memberId'] = $row['id'];
+		}	
+		echo "Successfully Registered: $address, $phone, $email <br>";
+		mysql_close($con);
+	} else {
 		echo "Invalid input <br>"; 
-     }
-} 
+	}
+} else {
+	echo "Empty input. Please input some data.<br>";
+}
+}
 function prepareInput($inputData){
 	$inputData = trim($inputData);
  	$inputData = stripslashes($inputData);
   	$inputData  = htmlspecialchars($inputData);
   	return $inputData;
 }
-function checkCustomerName($custName){
-	if (preg_match('/^[A-Za-z][A-Za-z0-9]{3,15}$/',$custName)){
-		echo "Name ok <br>";
+function checkAddress($address){
+	if (preg_match('/^.{1,30}$/',$address)){
+		echo "Address ok <br>";
 		return true;
 	}
 	else {
-		echo "Invalid Name <br>";
+		echo "Invalid Address <br>";
 		return false;
 	}
 }
-function checkCustomerId($customerId){
-	if (preg_match('/^[A-Za-z][0-9]{4}$/',$customerId)){		
-		echo "Id ok <br>";
+function checkPhone($phone){
+	if (preg_match('/^[2-9]\d{9}$/',$phone)){		
+		echo "Phone ok <br>";
 		return true;
 	}
 	else {
-		echo "Invalid Id <br>";
+		echo "Invalid Phone <br>";
 		return false;
 	}
 }
 function checkEmail($email){
 
-	if (preg_match('/^\S+@\S+\.\S+$/',$email)){
+	if (preg_match('/^(?!.{30,})(\S+@\S+\.\S+)$/',$email)){
 		echo "email ok <br>";
 		return true;
 	}
