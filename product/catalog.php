@@ -50,7 +50,7 @@
   <p> 
     <a href="viewCart.php?show">View Shopping Cart</a> 
     <br/> <br/>
-	<a href="viewCart.php?checkout">Checkout</a> 
+	<a href="generalCheckoutForm.php">Checkout</a> 
     <br/> <br/>
     <a href="viewCart.php?clear">Clear Shopping Cart</a> 
    </p> 

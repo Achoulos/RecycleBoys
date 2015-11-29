@@ -6,7 +6,6 @@ session_start();	// Start the session before you write your HTML page
  ?>
  <?php 
  	// get the current quantities from inventory.
- 	ini_set('display_errors','On');
     error_reporting(E_ALL);
     $db_host = "localhost";
     $db_user = "root";
@@ -30,6 +29,7 @@ session_start();	// Start the session before you write your HTML page
     while($row = mysqli_fetch_assoc($result)) {
         $inventory[$row['Code']] = $row['Quantity'];
     }
+    mysql_close($con);
  ?>
 <?php 
 // This function displays the contents of the shopping cart 
@@ -114,6 +114,17 @@ function checkout()
 	global $prices;
 	global $inventory;
 
+	$db_host = "localhost";
+    $db_user = "root";
+    $db_pass = "root";
+    $db_name = "mysql";
+    $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+    // Check connection
+    if (mysqli_connect_errno())
+      {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+      }
+
 	$grandTotal = 0;
 
 	if (isset($_SESSION['cart'])){
@@ -129,6 +140,14 @@ function checkout()
 					print("There aren't enough $fullname for your order.<br>");
 					print("We will notify you when $fullname is back in stock.<br>");
 				} else {
+					$sql = "UPDATE CATALOG SET Quantity=" .($inventory[$key] - $value) . " WHERE Code=\"$key\"";
+
+				     $result = $con->query($sql);
+				     if (!$result)
+				     {
+				       die('Error: ' . mysqli_error($con));
+				     } 
+  
 					$subtotal = (($prices[$key]) * $value);
 					$grandTotal += $subtotal;
 					print("$fullname = $value"." Subtotal: " . $subtotal . "<br>");
@@ -139,7 +158,7 @@ function checkout()
 	} else {
 		echo "No items in the cart";
 	}
-    
+    mysql_close($con);
 	session_destroy();
 }
 ?>
