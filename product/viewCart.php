@@ -194,9 +194,14 @@ function checkout()
 		drop();
 		unset($_GET['drop']);	
 	}// if user has chosen "remove item from cart"		
-	elseif (isset($_GET['checkout'])){ 
-		checkout();
-		unset($_GET['checkout']);	
+	elseif (isset($_GET['checkout'])){
+		if (isset($_SESSION['guestId']) || isset($_SESSION['memberId'])) { 
+			checkout();
+			unset($_GET['checkout']);
+			unset($_SESSION['guestId']);	
+		} else {
+			echo "You need to log in!<br>";
+		}
 	}	   	
 ?>
 <p> 
