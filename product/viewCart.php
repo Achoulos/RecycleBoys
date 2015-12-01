@@ -114,17 +114,6 @@ function checkout()
 	global $prices;
 	global $inventory;
 
-	$db_host = "localhost";
-    $db_user = "root";
-    $db_pass = "root";
-    $db_name = "mysql";
-    $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
-    // Check connection
-    if (mysqli_connect_errno())
-      {
-        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-      }
-
 	$grandTotal = 0;
 
 	if (isset($_SESSION['cart'])){
@@ -140,31 +129,88 @@ function checkout()
 					print("There aren't enough $fullname for your order.<br>");
 					print("We will notify you when $fullname is back in stock.<br>");
 				} else {
-					$sql = "UPDATE CATALOG SET Quantity=" .($inventory[$key] - $value) . " WHERE Code=\"$key\"";
-
-				     $result = $con->query($sql);
-				     if (!$result)
-				     {
-				       die('Error: ' . mysqli_error($con));
-				     } 
-  
 					$subtotal = (($prices[$key]) * $value);
 					$grandTotal += $subtotal;
 					print("$fullname = $value"." Subtotal: " . $subtotal . "<br>");
 				}
 			}
 		}
-		if (isset($_SESSION['memberId'])){
+		if (isset($_SESSION['memberId'])) {
 			echo "Member Discount: -" . (float) ($grandTotal * (0.10)) . "<br>";
 			$grandTotal -= (float) ($grandTotal * (0.10));
 		}
-		print("Grand Total: " . $grandTotal);
-		unset($_SESSION['cart']);
+		print("Grand Total: " . $grandTotal . "<br>");
+		print("Confirm Order?<br>");
+		print("<a href='viewCart.php?confirm'>Yes</a>	");
+		print("<a href='catalog.php'>No</a>");
 	} else {
 		echo "No items in the cart";
 	}
     mysql_close($con);
 //	session_destroy();
+}
+function confirm() {
+	if (isset($_SESSION['guestId']) || isset($_SESSION['memberId'])) { 
+		global $widgets;
+		global $prices;
+		global $inventory;
+
+		$db_host = "localhost";
+	    $db_user = "root";
+	    $db_pass = "root";
+	    $db_name = "mysql";
+	    $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+	    // Check connection
+	    if (mysqli_connect_errno())
+	      {
+	        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	      }
+
+		$grandTotal = 0;
+
+		if (isset($_SESSION['cart'])){
+			echo "Your Checkout:<br/>"; 
+			$mycart = $_SESSION['cart'];
+			foreach ($mycart as $key => $value){
+			if ($value >0) {
+				    // get the full widget name from the widgets array;
+					$fullname = $widgets[$key];
+					if ($inventory[$key] - $value < 0) {
+						$subtotal = (($prices[$key]) * $value);
+						print("$fullname = $value"." Subtotal: 0<br>");
+						print("There aren't enough $fullname for your order.<br>");
+						print("We will notify you when $fullname is back in stock.<br>");
+					} else {
+						$sql = "UPDATE CATALOG SET Quantity=" .($inventory[$key] - $value) . " WHERE Code=\"$key\"";
+
+					     $result = $con->query($sql);
+					     if (!$result)
+					     {
+					       die('Error: ' . mysqli_error($con));
+					     } 
+	  
+						$subtotal = (($prices[$key]) * $value);
+						$grandTotal += $subtotal;
+						print("$fullname = $value"." Subtotal: " . $subtotal . "<br>");
+					}
+				}
+			}
+			if (isset($_SESSION['memberId'])){
+				echo "Member Discount: -" . (float) ($grandTotal * (0.10)) . "<br>";
+				$grandTotal -= (float) ($grandTotal * (0.10));
+			}
+			print("Grand Total: " . $grandTotal . "<br>");
+		} else {
+			echo "No items in the cart";
+		}
+	    mysql_close($con);
+		echo "Order confirmed and placed! Thank you for your business.<br>";
+
+		unset($_SESSION['guestId']);	
+		unset($_SESSION['cart']);
+	} else {
+		echo "You need to log in to place an order!";
+	}
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 transitional//EN"
@@ -198,10 +244,13 @@ function checkout()
 		if (isset($_SESSION['guestId']) || isset($_SESSION['memberId'])) { 
 			checkout();
 			unset($_GET['checkout']);
-			unset($_SESSION['guestId']);	
 		} else {
 			echo "You need to log in!<br>";
 		}
+	}
+	elseif (isset($_GET['confirm'])) {
+		confirm();
+		unset($_GET['confirm']);
 	}	   	
 ?>
 <p> 
