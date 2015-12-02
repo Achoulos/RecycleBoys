@@ -7,6 +7,7 @@
 <?php include ("../general/header.php");
 ?>
 <body>
+ <h2 style="color:#87D37C;">Welcome to the Sustainability Store</h2>
   <?php 
     ini_set('display_errors','On');
     error_reporting(E_ALL);
@@ -36,8 +37,7 @@
         echo "<td>" . $row['Code'] . "</td>";
         echo "<td>" . $row['Title'] . "</td>";
         echo "<td>" . $row['Price'] . "</td>";
-        //echo "<td>" . $row['Quantity'] . "</td>";
-        echo "<td> IMAGE GOES HERE BONILLA </td>";
+        echo "<td> <img src='" . $row['Code'] . ".jpg'></td>";
         echo "<td> <a href=\"viewCart.php?add=" . $row['Code'] . "\">Add to cart</a></td>";
         echo "<tr>";
     }

@@ -91,6 +91,9 @@ input.text1 {
 .logo {
   margin-bottom: 20px;
 }
+img {
+  width: 50px;
+}
 </style>
 </head>
 <!--</head>
