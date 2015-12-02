@@ -9,7 +9,7 @@
  </form>
 
 <p>
-	<a href="catalog.php">Back</a>
+	<a href="../home/home.html">Back To Home</a>
 </p>
 
 <?php

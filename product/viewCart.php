@@ -78,7 +78,6 @@ function addToCart(){
 	// selection when the user clicked a link
 	
 	$addItemId = $_GET['add'];
-
 		 		 		
 	if (isset($_SESSION['cart'])){
 		$mycart = $_SESSION['cart'];
