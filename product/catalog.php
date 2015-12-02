@@ -4,11 +4,8 @@
  <?php 
     include ("inventory.php"); 	
  ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns = "http://www.w3.org/1999/xhtml">
-<head><title> Product Catalog </title></head>
+<?php include ("../general/header.php");
+?>
 <body>
   <?php 
     ini_set('display_errors','On');
