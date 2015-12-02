@@ -1,6 +1,8 @@
 <?php 
 	session_start();// Start the session before you write your HTML page
 ?>
+<?php include ("../general/header.php");
+?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
   Address: <input type="text" name="address" id="address">
   Email: <input type="text" name="email" id="email">
@@ -111,4 +113,6 @@ function checkEmail($email){
 	}
 }
 
+?>
+<?php include ("../general/footer.php");
 ?>

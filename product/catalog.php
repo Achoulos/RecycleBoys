@@ -28,8 +28,8 @@
       {
         die('Error: ' . mysqli_error($con));
       } 
-    echo "<table border='.5'>
-    <tr> <th> Code </th> <th> Product </th> <th> Price </th>";
+    echo "<table style='width:100%'>
+    <tr> <th> Code </th> <th> Product </th> <th> Price (USD) </th>";
     //echo "<th> Quantity </th>";
     while($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
@@ -42,13 +42,9 @@
         echo "<tr>";
     }
     echo "</table>";
+    echo "<br>";
   ?>
-  </table>
   <p> 
-    <a href="../general/login.php">Login</a>
-    <br/><br/>
-    <a href="../general/register.php">Register</a>
-    <br/><br/>
     <a href="viewCart.php?show">View Shopping Cart</a> 
     <br/> <br/>
 	<a href="generalCheckoutForm.php">Checkout</a> 
@@ -56,5 +52,9 @@
     <a href="viewCart.php?clear">Clear Shopping Cart</a> 
    </p> 
 
+   <?php 
+    include ("../general/footer.php");
+  ?>
   </body>
+
 </html>

@@ -1,6 +1,8 @@
 <?php 
 	session_start();// Start the session before you write your HTML page
 ?>
+<?php include ("../general/header.php");
+?>
 <?php
 function redirect($url, $statusCode = 303)
 {
@@ -82,3 +84,6 @@ function checkEmail($email){
 }
 
 ?>
+<?php 
+    include ("../general/footer.php");
+  ?>

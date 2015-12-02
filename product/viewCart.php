@@ -218,6 +218,8 @@ function confirm() {
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head><title>ViewCart</title></head>
 <body>
+<?php include ("../general/header.php");
+?>
 <?php
 	// if user has chosen "add"
 	if ( isset($_GET['add'])) { 
@@ -255,5 +257,8 @@ function confirm() {
 <p> 
     <a href="catalog.php?">Back to the Catalog</a> 
 </p> 
+<?php 
+    include ("../general/footer.php");
+  ?>
  </body>
 </html>
