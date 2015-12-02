@@ -5,6 +5,8 @@
 		unset($_SESSION['memberId']);
 	}
 ?>
+<?php include ("../general/header.php");
+?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
   Email: <input type="text" name="email" id="email">
   Phone: <input type="text" name="phone" id="phone">
@@ -85,4 +87,6 @@ function checkEmail($email){
 	}
 }
 
+?>
+<?php include ("../general/footer.php");
 ?>
