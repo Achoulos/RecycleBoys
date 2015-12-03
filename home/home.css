@@ -73,3 +73,8 @@ input.text1 {
 .logo {
   margin-bottom: 20px;
 }
+
+img.graphic {
+  width: 900px;
+  margin-top:20px;
+}
