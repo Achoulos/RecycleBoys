@@ -1,7 +1,7 @@
 <?php 
 	session_start();// Start the session before you write your HTML page
 	if (isset($_SESSION['memberId'])) {
-		echo "You're previous session has been logged out. <br>";
+		echo "Your previous session has been logged out. <br>";
 		unset($_SESSION['memberId']);
 	}
 ?>
