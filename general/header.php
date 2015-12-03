@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>WE NEED A SITE TITLE</title>
+    <title>RecycleBoys</title>
 <!-- Bootstrap core CSS -->
 <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
