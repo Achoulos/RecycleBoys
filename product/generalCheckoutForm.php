@@ -1,8 +1,6 @@
 <?php 
 	session_start();// Start the session before you write your HTML page
 ?>
-<?php include ("../general/header.php");
-?>
 <?php
 function redirect($url, $statusCode = 303)
 {
@@ -13,6 +11,8 @@ function redirect($url, $statusCode = 303)
 if (isset($_SESSION['memberId'])) {
 	 redirect("viewCart.php?checkout");
 }
+?>
+<?php include ("../general/header.php");
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
   Address: <input type="text" name="address" id="address">
